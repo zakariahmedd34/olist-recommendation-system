@@ -722,3 +722,68 @@ Rows   : 96,478
 - **M5** uses `cluster_id` to route customers to the correct segment-specific recommender.
 
 For the full technical write-up see `M4_Report.md`.
+
+
+## Final Update — Per-Segment Association Rules Using M4 Clusters
+
+After Member 4 completed the customer clustering task, M3 added the final per-segment association-rule mining step. M4 provided the file:
+
+`outputs/clustering/customer_cluster_assignments.csv`
+
+This file contains the final customer segments:
+
+- `customer_id`
+- `cluster_id`
+- `cluster_label`
+- `algorithm`
+
+The file was joined with the product basket data using `customer_id` and `order_id`, allowing association rules to be mined separately for each customer segment.
+
+### Process
+
+1. Loaded M4's customer cluster assignments.
+2. Joined each order with its corresponding customer and cluster.
+3. Created product-level baskets for each cluster.
+4. Ran FP-Growth separately on each customer segment.
+5. Exported both raw and ranked per-segment rules.
+6. Combined the previous general ranked rules with the new segment-specific ranked rules for M5.
+
+### Per-Segment Results
+
+| Cluster | Segment Name | Transactions | Rules Generated |
+|---|---|---:|---:|
+| C0 | Urban Core Buyers | 66,200 | 10 |
+| C1 | Southern Mid-Spend Buyers | 13,814 | 13 |
+| C2 | Central High-Value Buyers | 5,624 | 6 |
+| C3 | Credit-Reliant Northeast Buyers | 9,044 | 10 |
+| C4 | Remote Northern Premium Buyers | 1,796 | 0 |
+
+A total of **39 segment-specific product-level association rules** were generated. The smallest cluster, **Remote Northern Premium Buyers**, produced no valid rules because the filtered transaction count was too small to produce reliable co-purchase patterns.
+
+### New Output Files
+
+| File | Purpose |
+|---|---|
+| `per_segment_product_rules.csv` | Raw FP-Growth association rules per customer segment |
+| `per_segment_ranked_rules_for_m5.csv` | Ranked segment-specific rules for M5 |
+| `per_segment_ranked_rules_for_m5_readable.csv` | Readable segment rules with product category information |
+| `per_segment_rules_summary.csv` | Summary of number of transactions, itemsets, and rules per cluster |
+| `ranked_rules_for_m5_with_segments.csv` | Final combined file: general rules + segment-specific rules |
+| `ranked_rules_for_m5_with_segments_readable.csv` | Readable version of the final combined file |
+
+### Final Handoff to M5
+
+The main final handoff file for M5 is:
+
+`outputs/rules/ranked_rules_for_m5_with_segments.csv`
+
+This file contains both:
+
+1. General product-level association rules.
+2. Segment-specific product-level association rules.
+
+M5 can use this file in the hybrid recommender and apply RRF ranking using both general and segment-aware recommendation signals.
+
+### Conclusion
+
+The per-segment mining step completed the final dependency between M3 and M4. Although the Olist dataset is highly sparse, segment-specific mining still produced useful product-level rules for four out of five customer segments. This improves the recommendation pipeline by allowing M5 to use not only global association rules, but also rules tailored to customer behavior segments.

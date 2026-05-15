@@ -1,0 +1,6 @@
+cluster_id,cluster_label,original_transactions,filtered_transactions,frequent_items_kept,used_min_support,frequent_itemsets,rules,runtime_seconds
+0,Urban Core Buyers,66200,17959,500,0.0003,506,10,0.23031353950500488
+1,Southern Mid-Spend Buyers,13814,4244,500,0.000471253534401508,509,13,0.06950211524963379
+2,Central High-Value Buyers,5624,1929,500,0.0010368066355624676,503,6,0.04810976982116699
+3,Credit-Reliant Northeast Buyers,9044,3212,500,0.0006226650062266501,505,10,0.07941198348999023
+4,Remote Northern Premium Buyers,1796,499,192,0.004008016032064128,192,0,0.016810178756713867
