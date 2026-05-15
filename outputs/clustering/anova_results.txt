@@ -1,0 +1,19 @@
+External Feature Validation — Kruskal-Wallis H-test
+===================================================
+Best algorithm : K-Means (k=5)
+Test           : Kruskal-Wallis (non-parametric)
+Customers      : 96,470
+
+             Feature                     Role  H-statistic  p-value Significant  eta_squared Effect size
+ delivery_delay_days                 HELD-OUT      926.814      0.0         YES       0.0096       small
+    avg_review_score enriched (in clustering)      241.111      0.0         YES       0.0025       small
+       freight_share enriched (in clustering)     2769.974      0.0         YES       0.0287       small
+payment_installments enriched (in clustering)      541.597      0.0         YES       0.0056       small
+
+Note
+  delivery_delay_days is the sole HELD-OUT feature (not used in clustering).
+  avg_review_score / freight_share / payment_installments were used as
+  enriched clustering features; their significance confirms internal consistency.
+
+  p < 0.05  → clusters differ significantly on this feature
+  η² > 0.14 → large effect   η² > 0.06 → medium   η² ≤ 0.06 → small

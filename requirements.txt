@@ -1,0 +1,22 @@
+# Olist DM Project — Phase 2 Python dependencies
+# Install:   pip install -r requirements.txt
+# Tested:    Python 3.10+ on macOS (Apple Silicon) and Linux
+
+# --- Core data stack ---
+pandas>=2.0            # all CSV reads + DataFrame manipulation
+numpy>=1.24            # co-purchase matrix, similarity computations
+
+# --- Database (Postgres) ---
+sqlalchemy>=2.0        # ORM/engine for db.py and ETL scripts
+psycopg2-binary>=2.9   # Postgres driver (pre-built wheels, no compilation needed)
+
+# --- Date / holiday enrichment (load_date.py) ---
+holidays>=0.40         # Brazilian federal holidays 2016-2018
+
+# --- Clustering + visualization (cluster_categories_v2.py, render_dendrograms.py) ---
+scipy>=1.10            # hierarchical linkage, fcluster, squareform
+scikit-learn>=1.3      # cosine_similarity
+matplotlib>=3.7        # dendrogram PNGs
+
+# --- OPTIONAL: ER diagram regeneration (only if you want to rebuild dwh/ER.png) ---
+# eralchemy2>=1.3      # also needs `brew install graphviz` system package

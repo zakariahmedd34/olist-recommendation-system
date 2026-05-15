@@ -1,0 +1,348 @@
+
+############################################################
+## SECTION A — SCHEMA SHAPE
+############################################################
+
+--- 1. TABLES PRESENT (expect exactly 7) ---
+     tablename      
+--------------------
+ dim_category_group
+ dim_customers
+ dim_date
+ dim_products
+ dim_region
+ dim_sellers
+ fact_orderitems
+(7 rows)
+
+--- 2. NO UNEXPECTED EXTRA TABLES ---
+ extra_tables 
+--------------
+            0
+(1 row)
+
+--- 3. VIEWS PRESENT (expect 4) ---
+      table_name       
+-----------------------
+ v_baskets_category
+ v_baskets_product
+ v_customer_features
+ v_orders_with_holiday
+(4 rows)
+
+--- 4. NO UNEXPECTED EXTRA VIEWS ---
+ extra_views 
+-------------
+           0
+(1 row)
+
+--- 5. FK CONSTRAINTS DECLARED (expect 6) ---
+   table_name    |               fk_name               
+-----------------+-------------------------------------
+ dim_customers   | dim_customers_region_id_fkey
+ dim_products    | dim_products_category_group_id_fkey
+ fact_orderitems | fact_orderitems_customer_id_fkey
+ fact_orderitems | fact_orderitems_orderdate_fkey
+ fact_orderitems | fact_orderitems_product_id_fkey
+ fact_orderitems | fact_orderitems_seller_id_fkey
+(6 rows)
+
+
+############################################################
+## SECTION B — DATA INTEGRITY
+############################################################
+
+--- 6. ROW COUNTS (actual vs expected) ---
+         t          | actual | expected 
+--------------------+--------+----------
+ dim_region         |     27 |       27
+ dim_category_group |     10 |       10
+ dim_date           |   1096 |     1096
+ dim_sellers        |   3095 |     3095
+ dim_products       |  32951 |    32951
+ fact_orderitems    | 110197 |   110197
+ dim_customers      |  99441 |    99441
+(7 rows)
+
+--- 7. PK / UNIQUE DUPLICATES (every dup = 0) ---
+                  pk                  | dup 
+--------------------------------------+-----
+ dim_region.region_id                 |   0
+ dim_category_group.group_name UNIQUE |   0
+ dim_category_group.group_id          |   0
+ dim_region.state UNIQUE              |   0
+ dim_date.date                        |   0
+ dim_sellers.seller_id                |   0
+ dim_products.product_id              |   0
+ dim_customers.customer_id            |   0
+ fact.(order_id, order_item_id)       |   0
+(9 rows)
+
+--- 8. FACT → DIM FK ORPHANS (every orphans = 0) ---
+        fk        | orphans 
+------------------+---------
+ fact → date      |       0
+ fact → sellers   |       0
+ fact → products  |       0
+ fact → customers |       0
+(4 rows)
+
+--- 9. OUTRIGGER FK ORPHANS (orphans = 0; nulls expected) ---
+         fk         | orphans | null_fk 
+--------------------+---------+---------
+ customers → region |       0 |       0
+(1 row)
+
+            fk             | orphans | null_fk 
+---------------------------+---------+---------
+ products → category_group |       0 |     610
+(1 row)
+
+--- 10. NULL DISCIPLINE on PK-bearing IDs (bad = 0) ---
+             check              | bad 
+--------------------------------+-----
+ dim_customers.customer_id NULL |   0
+ dim_sellers.seller_id NULL     |   0
+ dim_products.product_id NULL   |   0
+ dim_date.date NULL             |   0
+ fact.order_id NULL             |   0
+ fact.product_id NULL           |   0
+ fact.orderdate NULL            |   0
+(7 rows)
+
+--- 11. GENERATED COLUMN total_item_value = price+freight (mismatches = 0) ---
+ mismatches 
+------------
+          0
+(1 row)
+
+
+############################################################
+## SECTION C — PHASE 1 FIDELITY
+############################################################
+
+--- 12. PHASE 1 COLUMNS PRESERVED (counts must match expected) ---
+        t        | present | expected 
+-----------------+---------+----------
+ dim_customers   |       5 |        5
+ dim_sellers     |       4 |        4
+ dim_products    |       8 |        8
+ dim_date        |       7 |        7
+ fact_orderitems |      10 |       10
+(5 rows)
+
+
+############################################################
+## SECTION D — PHASE 2 ADDITIONS
+############################################################
+
+--- 13. PHASE 2 NEW COLUMNS PRESENT (every count = 1) ---
+              col               | count 
+--------------------------------+-------
+ dim_customers.region_id        |     1
+ dim_products.category_group_id |     1
+ dim_date.is_holiday            |     1
+ dim_date.holiday_name          |     1
+ dim_date.is_weekend            |     1
+ dim_date.season                |     1
+ dim_date.payday_window         |     1
+(7 rows)
+
+--- 14. BR HOLIDAYS FLAGGED (5 known holidays, all is_holiday=t) ---
+    date    | is_holiday |       holiday_name        
+------------+------------+---------------------------
+ 2017-09-07 | t          | Independence Day
+ 2017-11-15 | t          | Republic Proclamation Day
+ 2017-12-25 | t          | Christmas Day
+ 2018-04-21 | t          | Tiradentes' Day
+ 2018-05-01 | t          | Worker's Day
+(5 rows)
+
+--- 15. HOLIDAY COUNT (expect 25-30 federal BR holidays in window) ---
+ total_holiday_days 
+--------------------
+                 27
+(1 row)
+
+--- 16. SEASON DISTRIBUTION (should be ~270 days each) ---
+  season   | count 
+-----------+-------
+ Inverno   |   276
+ Outono    |   276
+ Primavera |   273
+ Verão     |   271
+(4 rows)
+
+--- 17. PAYDAY-WINDOW DAYS (expect ~270-310) ---
+ payday_days 
+-------------
+         304
+(1 row)
+
+--- 18. REGION DISTRIBUTION (5 macro-regions, all populated) ---
+ macro_region | n_states 
+--------------+----------
+ Nordeste     |        9
+ Norte        |        7
+ Centro-Oeste |        4
+ Sudeste      |        4
+ Sul          |        3
+(5 rows)
+
+--- 19. CATEGORY GROUPS POPULATED (10 rows, each n_products > 0) ---
+ group_id |          group_name           | n_products | n_leaf_categories 
+----------+-------------------------------+------------+-------------------
+        1 | fashion_apparel               |         46 |                 2
+        2 | cama_mesa_banho               |       3140 |                 2
+        3 | fashion_bolsas_e_acessorios   |        854 |                 2
+        4 | construcao_ferramentas_jardim |        102 |                 2
+        5 | livros_tecnicos               |        150 |                 2
+        6 | moveis_decoracao              |       3106 |                 5
+        7 | electronics_misc              |        801 |                 3
+        8 | gifts_household               |       3112 |                 5
+        9 | music_homecomfort             |        294 |                 2
+       10 | diversified_other             |      20736 |                48
+(10 rows)
+
+
+############################################################
+## SECTION E — FACT DATE COVERAGE
+############################################################
+
+--- 20. FACT DATE RANGE (must be inside dim_date 2016-2018) ---
+ first_order | last_order | distinct_dates 
+-------------+------------+----------------
+ 2016-09-15  | 2018-08-29 |            612
+(1 row)
+
+--- 21. FACT DATES ALL IN dim_date (orphans = 0) ---
+ fact_dates_not_in_dim_date 
+----------------------------
+                          0
+(1 row)
+
+
+############################################################
+## SECTION F — PERFORMANCE PRIMITIVES (indexes, view counts)
+############################################################
+
+--- 22. INDEXES ON FACT (expect 5: PK + 4 FK indexes) ---
+      indexname       
+----------------------
+ fact_orderitems_pkey
+ idx_fact_customer_id
+ idx_fact_orderdate
+ idx_fact_product_id
+ idx_fact_seller_id
+(5 rows)
+
+--- 23. VIEW ROW COUNTS (none should be 0) ---
+         view          | count 
+-----------------------+-------
+ v_baskets_product     | 96478
+ v_baskets_category    | 95146
+ v_orders_with_holiday | 96478
+ v_customer_features   | 96478
+(4 rows)
+
+
+############################################################
+## SECTION G — CONSUMER QUERY SMOKE TESTS
+## (the kinds of queries M3, M4, M5 will actually run)
+############################################################
+
+--- 24. M3 sample — top 5 product-pair co-occurrences (rule-mining input) ---
+                p1                |                p2                | cooccurs 
+----------------------------------+----------------------------------+----------
+ 05b515fdc76e888aada3c6d66c201dff | 270516a3f41dc035aa87d220228f844c |      100
+ 36f60d45225e60c7da4558b070ce4b60 | e53e557d5a159f5aa2c5e995dfdf244b |       48
+ 62995b7e571f5760017991632bbfd311 | ac1ad58efc1ebf66bfadc09f29bdedc0 |       36
+ 710b7c26b7a742f497bba45fab91a25f | a9d9db064d4afd4458eb3e139fe29167 |       36
+ 308e4e21ae228a10f6370a243ae59995 | 90b58782fdd04cb829667fcc41fb65f5 |       30
+(5 rows)
+
+--- 25. M3 sample — top 5 category-group-pair co-occurrences ---
+             c1              |             c2              | cooccurs 
+-----------------------------+-----------------------------+----------
+ diversified_other           | diversified_other           |     2564
+ cama_mesa_banho             | cama_mesa_banho             |     1214
+ moveis_decoracao            | moveis_decoracao            |      620
+ gifts_household             | gifts_household             |      452
+ fashion_bolsas_e_acessorios | fashion_bolsas_e_acessorios |      154
+(5 rows)
+
+--- 26. M4 sample — customer feature distribution (5-number summary) ---
+ n_customers | avg_freq | max_freq | avg_monetary | max_monetary | avg_basket | max_basket | avg_n_cats 
+-------------+----------+----------+--------------+--------------+------------+------------+------------
+       96478 |     1.00 |        1 |       159.83 |     13664.08 |       1.14 |      21.00 |       0.99
+(1 row)
+
+--- 27. M5 sample — customer × product matrix dimensions ---
+ n_customers | n_products | n_interactions 
+-------------+------------+----------------
+       96478 |      32216 |         110197
+(1 row)
+
+--- 28. M3 holiday-conditioned baskets ready (counts on holiday vs not) ---
+ is_holiday | n_orders 
+------------+----------
+ f          |    95001
+ t          |     1477
+(2 rows)
+
+
+############################################################
+## SECTION H — DOC/CODE CONSISTENCY
+############################################################
+
+--- 29. category_group n_categories sums to 73 leaf categories ---
+ total_leaf_categories 
+-----------------------
+                    73
+(1 row)
+
+--- 30. SAMPLE rows from each view (must look real) ---
+--- v_baskets_product ---
+             order_id             |              products              
+----------------------------------+------------------------------------
+ 00010242fe8c5a6d1ba2dd792cb16214 | {4244733e06e7ecb4970a6e2683c13e61}
+(1 row)
+
+--- v_baskets_category ---
+             order_id             |  category_groups   
+----------------------------------+--------------------
+ 00010242fe8c5a6d1ba2dd792cb16214 | {electronics_misc}
+(1 row)
+
+--- v_customer_features ---
+           customer_id            | frequency | monetary | avg_basket_size | n_categories | region  
+----------------------------------+-----------+----------+-----------------+--------------+---------
+ 00012a2ce6f8dcda20d059ce98491703 |         1 |   114.74 |               1 |            1 | Sudeste
+(1 row)
+
+--- v_orders_with_holiday (holiday row) ---
+             order_id             | orderdate  | is_holiday |  holiday_name   | season | is_weekend | payday_window 
+----------------------------------+------------+------------+-----------------+--------+------------+---------------
+ fc395bfc7bc0ca54d0fa3e4cc90d055f | 2018-04-21 | t          | Tiradentes' Day | Outono | t          | f
+(1 row)
+
+
+############################################################
+##  AUDIT COMPLETE — pass conditions:
+##  1: exactly 7 tables.    2: extra_tables = 0.
+##  3: exactly 4 views.     4: extra_views = 0.
+##  5: 6 FK constraints listed (1 on customers, 1 on products, 4 on fact).
+##  6: every actual = expected.   7: every dup = 0.   8: every orphans = 0.
+##  9: orphans = 0 (nulls are OK).   10: every bad = 0.   11: mismatches = 0.
+## 12: every present = expected (Phase 1 columns intact).
+## 13: every count = 1 (Phase 2 columns exist).
+## 14: 5 holiday rows, all is_holiday=t.   15: 25-30 total holidays.
+## 16: 4 seasons, each ~270 days.   17: ~300 payday days.
+## 18: 5 macro-regions, all populated.
+## 19: 10 groups, every n_products > 0.
+## 20: dates 2016-09..2018-08.   21: 0 fact dates outside dim_date.
+## 22: 5 indexes.   23: every view rows > 0.
+## 24-28: M3/M4/M5 sample queries all return real-looking data.
+## 29: SUM(n_cat) = 73 (every leaf category lives in exactly one group).
+## 30: each sample row is a real UUID + sensible values.
+############################################################

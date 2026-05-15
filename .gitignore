@@ -1,0 +1,29 @@
+# Raw dataset CSVs — too large for GitHub (121 MB).
+# Download from https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+shared_data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace

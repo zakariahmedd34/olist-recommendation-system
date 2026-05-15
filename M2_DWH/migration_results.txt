@@ -1,0 +1,45 @@
+BEGIN
+--- 1. DIM_CUSTOMERS: trim + clean city/state ---
+UPDATE 99441
+--- 2. DIM_SELLERS: trim + clean + Proper city + Upper state ---
+UPDATE 3095
+--- 3a. DIM_PRODUCTS: empty/NULL product_category_name → "unknown" ---
+UPDATE 610
+--- 3b. DIM_PRODUCTS: NULL product_category_name_english → "unknown" ---
+UPDATE 623
+--- 3c. DIM_PRODUCTS: NULL product_photos_qty → 0 ---
+UPDATE 610
+--- 3d. DIM_PRODUCTS: median-impute NULL weight/length/height/width ---
+UPDATE 2
+--- 4. FACT_ORDERITEMS: delete rows with freight_value < 0 ---
+DELETE 0
+--- 5. FACT_ORDERITEMS: rebuild order_item_key as TEXT concat ---
+DROP VIEW
+DROP VIEW
+DROP VIEW
+DROP VIEW
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 110197
+ALTER TABLE
+ALTER TABLE
+COMMIT
+--- 6. RECREATE VIEWS ---
+psql:dwh/views.sql:6: NOTICE:  view "v_baskets_product" does not exist, skipping
+DROP VIEW
+psql:dwh/views.sql:7: NOTICE:  view "v_baskets_category" does not exist, skipping
+DROP VIEW
+psql:dwh/views.sql:8: NOTICE:  view "v_customer_features" does not exist, skipping
+DROP VIEW
+psql:dwh/views.sql:9: NOTICE:  view "v_orders_with_holiday" does not exist, skipping
+DROP VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+
+============================================================
+  Phase 1 fidelity migration complete.
+  Run dwh/phase1_fidelity_check.sql to verify.
+============================================================

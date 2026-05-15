@@ -1,0 +1,14 @@
+output,rows,columns
+basket_size_summary.csv,10,3
+category_apriori_rules.csv,0,14
+category_eclat_rules.csv,0,7
+category_fpgrowth_rules.csv,0,14
+holiday_category_mix.csv,20,4
+holiday_eda_summary.csv,4,2
+product_apriori_rules.csv,10,14
+product_eclat_rules.csv,10,7
+product_fpgrowth_rules.csv,10,14
+product_threshold_trials.csv,15,6
+ranked_rules_for_m5.csv,30,10
+seasonal_category_rules.csv,0,17
+sensitivity_results_category.csv,90,7

@@ -1,0 +1,134 @@
+#### TEAM-READINESS DASHBOARD ####
+
+== Schema headcount ==
+ n_tables 
+----------
+        7
+(1 row)
+
+ n_views 
+---------
+       4
+(1 row)
+
+ n_fk_constraints 
+------------------
+                6
+(1 row)
+
+
+== Row counts ==
+         t          | count  
+--------------------+--------
+ dim_region         |     27
+ dim_category_group |     10
+ dim_date           |   1096
+ dim_sellers        |   3095
+ dim_products       |  32951
+ fact_orderitems    | 110197
+ dim_customers      |  99441
+(7 rows)
+
+
+== Phase 1 fidelity ==
+              check               |  result   
+----------------------------------+-----------
+ sellers city Phase-1 fmt         | 3095/3095
+ sellers state Phase-1 fmt        | 3095/3095
+ products with NULL weight        | 0
+ products with NULL category_name | 0
+ fact with negative freight       | 0
+ order_item_key not text-concat   | 0
+(6 rows)
+
+
+== M1 (paper) inputs ==
+       check        | result 
+--------------------+--------
+ ER diagram exists? | yes
+(1 row)
+
+           check           | result 
+---------------------------+--------
+ validation ratio (cosine) | 11.04x
+(1 row)
+
+
+== M3 (rule mining) inputs ==
+         check          | result 
+------------------------+--------
+ v_baskets_product rows |  96478
+(1 row)
+
+          check          | result 
+-------------------------+--------
+ v_baskets_category rows |  95146
+(1 row)
+
+           check            | result 
+----------------------------+--------
+ v_orders_with_holiday rows |  96478
+(1 row)
+
+          check           | result 
+--------------------------+--------
+ holiday orders available |   1477
+(1 row)
+
+                   check                   | result 
+-------------------------------------------+--------
+ distinct categories in v_baskets_category |     10
+(1 row)
+
+
+== M4 (clustering) inputs ==
+          check           | result 
+--------------------------+--------
+ v_customer_features rows |  96478
+(1 row)
+
+             check              | result 
+--------------------------------+--------
+ customers with non-null region |  96478
+(1 row)
+
+            check             | result 
+------------------------------+--------
+ distinct regions for one-hot |      5
+(1 row)
+
+       check       | result 
+-------------------+--------
+ min/max frequency | 1 / 1
+(1 row)
+
+
+== M5 (CF + hybrid) inputs ==
+          check           | result 
+--------------------------+--------
+ fact rows (interactions) | 110197
+(1 row)
+
+       check        | result 
+--------------------+--------
+ distinct customers |  96478
+(1 row)
+
+       check       | result 
+-------------------+--------
+ distinct products |  32216
+(1 row)
+
+            check            |          result          
+-----------------------------+--------------------------
+ date range for chrono split | 2016-09-15 .. 2018-08-29
+(1 row)
+
+              check              | result 
+---------------------------------+--------
+ products with category_group_id |  32341
+(1 row)
+
+
+#### READINESS DASHBOARD COMPLETE ####
+Everything above = ready. If any row looks 0/empty/wrong, ping yasmin.

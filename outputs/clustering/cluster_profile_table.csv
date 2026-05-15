@@ -1,0 +1,6 @@
+cluster_kmeans,size,frequency_mean,monetary_mean,monetary_median,basket_mean,n_cat_mean,avg_review_mean,freight_share_mean,installments_mean,pct_customers,top_region,cluster_label
+0,66200,1.0,150.478,99.9,1.144,0.991,4.186,0.195,2.829,68.6,Sudeste,Urban Core Buyers
+1,13814,1.0,162.032,107.365,1.15,0.991,4.195,0.223,2.972,14.3,Sul,Southern Mid-Spend Buyers
+2,5624,1.0,177.085,114.36,1.152,0.986,4.133,0.227,2.943,5.8,Centro-Oeste,Central High-Value Buyers
+3,9044,1.0,201.52,130.01,1.115,0.991,3.978,0.263,3.498,9.4,Nordeste,Credit-Reliant Northeast Buyers
+4,1796,1.0,223.463,142.485,1.124,0.987,4.038,0.283,3.309,1.9,Norte,Remote Northern Premium Buyers

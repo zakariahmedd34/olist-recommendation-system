@@ -1,0 +1,120 @@
+
+============================================================
+  PHASE 1 FIDELITY CHECK
+============================================================
+
+--- A. DIM_CUSTOMERS — trim/clean ---
+                   check                   | bad 
+-------------------------------------------+-----
+ customer_state has non-printable char     |   0
+ customer_city has leading/trailing space  |   0
+ customer_state has leading/trailing space |   0
+ customer_city has non-printable char      |   0
+(4 rows)
+
+
+--- B. DIM_SELLERS — Proper case city + UPPER state ---
+                  check                  | bad 
+-----------------------------------------+-----
+ seller_city not INITCAP                 |   0
+ seller_state not UPPER                  |   0
+ seller_city has leading/trailing space  |   0
+ seller_state has leading/trailing space |   0
+(4 rows)
+
+--- B sample — verify capitalization with 5 random rows ---
+            seller_id             |  seller_city   | seller_state 
+----------------------------------+----------------+--------------
+ ea4e9ce63a2134743b4a92777437fcdd | Palhoca        | SC
+ 01c97ebb5cdac52891c0ed1c37ba0012 | Catanduva      | SP
+ 782f78b632a43875dd5b53e3e49c9564 | Campinas       | SP
+ d65f31d2413268e671989503f6cf9993 | Artur Nogueira | SP
+ fcba71d4d5db057f43249145e4eb1e27 | Limeira        | SP
+(5 rows)
+
+
+--- C. DIM_PRODUCTS — null/empty imputed ---
+                  check                   | bad 
+------------------------------------------+-----
+ product_weight_g NULL                    |   0
+ product_width_cm NULL                    |   0
+ product_height_cm NULL                   |   0
+ product_category_name_english NULL/empty |   0
+ product_length_cm NULL                   |   0
+ product_category_name NULL/empty         |   0
+ product_photos_qty NULL                  |   0
+(7 rows)
+
+--- C sample — products that were imputed (formerly NULL) ---
+            product_id            | product_category_name | product_category_name_english | product_weight_g | product_length_cm | product_height_cm | product_width_cm | product_photos_qty 
+----------------------------------+-----------------------+-------------------------------+------------------+-------------------+-------------------+------------------+--------------------
+ a41e356c76fab66334f36de622ecbd3a | unknown               | unknown                       |              650 |                17 |                14 |               12 |                  0
+ d8dee61c2034d6d075997acef1870e9b | unknown               | unknown                       |              300 |                16 |                 7 |               20 |                  0
+ 56139431d72cd51f19eb9f7dae4d1617 | unknown               | unknown                       |              200 |                20 |                20 |               20 |                  0
+ 46b48281eb6d663ced748f324108c733 | unknown               | unknown                       |            18500 |                41 |                30 |               41 |                  0
+ 5fb61f482620cb672f5e586bb132eae9 | unknown               | unknown                       |              300 |                35 |                 7 |               12 |                  0
+(5 rows)
+
+
+--- D. FACT_ORDERITEMS — freight ≥ 0 ---
+       check       | bad 
+-------------------+-----
+ freight_value < 0 |   0
+(1 row)
+
+
+--- E. FACT_ORDERITEMS — order_item_key as Phase 1 text concat ---
+                        check                         | bad 
+------------------------------------------------------+-----
+ order_item_key NULL                                  |   0
+ order_item_key not "orderid-N" format                |   0
+ order_item_key mismatch vs (order_id, order_item_id) |   0
+(3 rows)
+
+--- E PK type check (expect: text) ---
+  column_name   | data_type | is_nullable 
+----------------+-----------+-------------
+ order_item_key | text      | NO
+(1 row)
+
+--- E sample — 3 order_item_key values to eyeball ---
+           order_item_key           |             order_id             | order_item_id 
+------------------------------------+----------------------------------+---------------
+ 00010242fe8c5a6d1ba2dd792cb16214-1 | 00010242fe8c5a6d1ba2dd792cb16214 |             1
+ 00018f77f2f0320c557190d7a144bdd3-1 | 00018f77f2f0320c557190d7a144bdd3 |             1
+ 000229ec398224ef6ca0657da4fc703e-1 | 000229ec398224ef6ca0657da4fc703e |             1
+(3 rows)
+
+
+--- F. PK + FK still valid after migration ---
+           check           | bad 
+---------------------------+-----
+ order_item_key duplicates |   0
+(1 row)
+
+          check           | bad 
+--------------------------+-----
+ fact → date orphans      |   0
+ fact → sellers orphans   |   0
+ fact → products orphans  |   0
+ fact → customers orphans |   0
+(4 rows)
+
+
+--- G. VIEWS still working ---
+            view            | count 
+----------------------------+-------
+ v_baskets_product rows     | 96478
+ v_baskets_category rows    | 95146
+ v_orders_with_holiday rows | 96478
+ v_customer_features rows   | 96478
+(4 rows)
+
+
+============================================================
+  PHASE 1 FIDELITY VERIFICATION COMPLETE
+  Pass criteria: every "bad" = 0 · view rows > 0 · PK type = text
+  Sample rows: eyeball that seller_city looks Like This,
+                seller_state looks LIKE THIS, order_item_key
+                looks like "abc...123-1"
+============================================================

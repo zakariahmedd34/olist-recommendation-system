@@ -1,0 +1,5 @@
+metric,value
+holiday_baskets,1459
+nonholiday_baskets,93687
+chi_square_p_value,0.08176140012376523
+decision,seasonal

@@ -1,0 +1,9 @@
+output,rows,notes
+category_apriori_rules.csv,0,"min_support=0.0001, min_confidence=0.05"
+category_fpgrowth_rules.csv,0,"min_support=0.0001, min_confidence=0.05"
+category_eclat_rules.csv,0,"min_support=0.0001, min_confidence=0.05"
+product_apriori_rules.csv,3,"filtered products count=332, min_support=0.001, min_confidence=0.1"
+product_fpgrowth_rules.csv,3,"filtered products count=332, min_support=0.001, min_confidence=0.1"
+product_eclat_rules.csv,3,"filtered products count=332, min_support=0.001, min_confidence=0.1"
+seasonal_category_rules.csv,0,holiday decision=seasonal
+ranked_rules_for_m5.csv,9,final ranked rules for RRF hybrid recommender

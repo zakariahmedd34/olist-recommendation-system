@@ -1,0 +1,4 @@
+Algorithm,n_clusters,Silhouette,Davies-Bouldin,Notes
+K-Means,5,0.4082,0.9631,Full 96k dataset · k-means++ · n_init=25
+DBSCAN,4,0.3815,1.2974,15k subsample (PCA-5) · eps=2.000 · 1-NN propagation
+Hierarchical (Ward),5,0.3953,0.9533,10k subsample · Ward linkage · 1-NN propagation
