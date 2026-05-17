@@ -1,0 +1,9 @@
+metric,value
+all_orders_in_fact_orderitems,96478.0
+multi_item_orders_distinct_product_gt_1,3197.0
+removed_orders,93281.0
+multi_item_order_percentage,3.313708824809801
+original_fact_rows,110197.0
+filtered_fact_rows,7676.0
+filtered_unique_customers,3167.0
+filtered_unique_products,4830.0

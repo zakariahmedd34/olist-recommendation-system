@@ -1,0 +1,6 @@
+comparison,wilcoxon_p,mean_diff,ci_low,ci_high,cliffs_delta,n_pairs
+Hybrid (RRF) vs Apriori-only,1.0,0.0,-0.037500000000000006,0.037500000000000006,0.0,8
+Hybrid (RRF) vs CF-only,1.0,-0.0125,-0.037500000000000006,0.0,-0.125,8
+Hybrid (RRF) vs Category-Popular,1.0,0.0125,0.0,0.037500000000000006,0.125,8
+Hybrid (RRF) vs FP-Growth-only,1.0,0.0,-0.037500000000000006,0.037500000000000006,0.0,8
+Hybrid (RRF) vs Most-Popular,1.0,0.0,-0.037500000000000006,0.037500000000000006,0.0,8

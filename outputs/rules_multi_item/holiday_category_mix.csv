@@ -1,0 +1,17 @@
+is_holiday,category_group,count,proportion
+False,cama_mesa_banho,795,0.22350295192578015
+False,construcao_ferramentas_jardim,25,0.007028394714647174
+False,diversified_other,1685,0.47371380376721955
+False,electronics_misc,89,0.02502108518414394
+False,fashion_apparel,3,0.0008434073657576609
+False,fashion_bolsas_e_acessorios,108,0.030362665167275794
+False,gifts_household,359,0.10092774810233343
+False,livros_tecnicos,9,0.002530222097272983
+False,moveis_decoracao,468,0.1315715490581951
+False,music_homecomfort,16,0.004498172617374192
+True,cama_mesa_banho,13,0.20634920634920634
+True,diversified_other,25,0.3968253968253968
+True,electronics_misc,3,0.047619047619047616
+True,fashion_bolsas_e_acessorios,3,0.047619047619047616
+True,gifts_household,12,0.19047619047619047
+True,moveis_decoracao,7,0.1111111111111111

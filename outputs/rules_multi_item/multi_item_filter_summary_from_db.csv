@@ -1,0 +1,8 @@
+metric,value
+all_orders_in_product_baskets,96478.0
+multi_item_orders_distinct_product_gt_1,3197.0
+removed_orders,93281.0
+multi_item_percentage,3.313708824809801
+category_rows_after_filter,3190.0
+product_rows_after_filter,3197.0
+holiday_rows_after_filter,3197.0

@@ -1,0 +1,49 @@
+customer_unique_id,precision_at_10,recall_at_10,hit,system
+12d8b5ed661190a3a08183644dfc504d,0.0,0.0,0,Most-Popular
+473d9165586cfc6708841d07adf6c020,0.1,0.3333333333333333,1,Most-Popular
+acea6bd29b8c1e3c6a8b266a8fb4475e,0.0,0.0,0,Most-Popular
+ae3e48f07b8242fa45f29dca1ce36a08,0.0,0.0,0,Most-Popular
+bbf65e7823171a84e70a495dd6c34ceb,0.0,0.0,0,Most-Popular
+c4063084f01f085897c04bcbd81fcb69,0.0,0.0,0,Most-Popular
+eae0a83d752b1dd32697e0e7b4221656,0.0,0.0,0,Most-Popular
+ec441c1966bfa602976763f330fc5168,0.0,0.0,0,Most-Popular
+12d8b5ed661190a3a08183644dfc504d,0.0,0.0,0,Category-Popular
+473d9165586cfc6708841d07adf6c020,0.0,0.0,0,Category-Popular
+acea6bd29b8c1e3c6a8b266a8fb4475e,0.0,0.0,0,Category-Popular
+ae3e48f07b8242fa45f29dca1ce36a08,0.0,0.0,0,Category-Popular
+bbf65e7823171a84e70a495dd6c34ceb,0.0,0.0,0,Category-Popular
+c4063084f01f085897c04bcbd81fcb69,0.0,0.0,0,Category-Popular
+eae0a83d752b1dd32697e0e7b4221656,0.0,0.0,0,Category-Popular
+ec441c1966bfa602976763f330fc5168,0.0,0.0,0,Category-Popular
+12d8b5ed661190a3a08183644dfc504d,0.0,0.0,0,Apriori-only
+473d9165586cfc6708841d07adf6c020,0.1,0.3333333333333333,1,Apriori-only
+acea6bd29b8c1e3c6a8b266a8fb4475e,0.0,0.0,0,Apriori-only
+ae3e48f07b8242fa45f29dca1ce36a08,0.0,0.0,0,Apriori-only
+bbf65e7823171a84e70a495dd6c34ceb,0.0,0.0,0,Apriori-only
+c4063084f01f085897c04bcbd81fcb69,0.0,0.0,0,Apriori-only
+eae0a83d752b1dd32697e0e7b4221656,0.0,0.0,0,Apriori-only
+ec441c1966bfa602976763f330fc5168,0.0,0.0,0,Apriori-only
+12d8b5ed661190a3a08183644dfc504d,0.0,0.0,0,FP-Growth-only
+473d9165586cfc6708841d07adf6c020,0.1,0.3333333333333333,1,FP-Growth-only
+acea6bd29b8c1e3c6a8b266a8fb4475e,0.0,0.0,0,FP-Growth-only
+ae3e48f07b8242fa45f29dca1ce36a08,0.0,0.0,0,FP-Growth-only
+bbf65e7823171a84e70a495dd6c34ceb,0.0,0.0,0,FP-Growth-only
+c4063084f01f085897c04bcbd81fcb69,0.0,0.0,0,FP-Growth-only
+eae0a83d752b1dd32697e0e7b4221656,0.0,0.0,0,FP-Growth-only
+ec441c1966bfa602976763f330fc5168,0.0,0.0,0,FP-Growth-only
+12d8b5ed661190a3a08183644dfc504d,0.0,0.0,0,CF-only
+473d9165586cfc6708841d07adf6c020,0.0,0.0,0,CF-only
+acea6bd29b8c1e3c6a8b266a8fb4475e,0.1,0.5,1,CF-only
+ae3e48f07b8242fa45f29dca1ce36a08,0.0,0.0,0,CF-only
+bbf65e7823171a84e70a495dd6c34ceb,0.0,0.0,0,CF-only
+c4063084f01f085897c04bcbd81fcb69,0.0,0.0,0,CF-only
+eae0a83d752b1dd32697e0e7b4221656,0.1,0.5,1,CF-only
+ec441c1966bfa602976763f330fc5168,0.0,0.0,0,CF-only
+12d8b5ed661190a3a08183644dfc504d,0.0,0.0,0,Hybrid (RRF)
+473d9165586cfc6708841d07adf6c020,0.0,0.0,0,Hybrid (RRF)
+acea6bd29b8c1e3c6a8b266a8fb4475e,0.0,0.0,0,Hybrid (RRF)
+ae3e48f07b8242fa45f29dca1ce36a08,0.0,0.0,0,Hybrid (RRF)
+bbf65e7823171a84e70a495dd6c34ceb,0.0,0.0,0,Hybrid (RRF)
+c4063084f01f085897c04bcbd81fcb69,0.0,0.0,0,Hybrid (RRF)
+eae0a83d752b1dd32697e0e7b4221656,0.1,0.5,1,Hybrid (RRF)
+ec441c1966bfa602976763f330fc5168,0.0,0.0,0,Hybrid (RRF)
